@@ -1,0 +1,1510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JavaScript, TypeScript & Playwright Automation — ELI5 Quick Reference Guide</title>
+<style>
+  :root {
+    --primary: #0F172A;
+    --primary-light: #1E293B;
+    --accent: #2563EB;
+    --accent-soft: #EFF6FF;
+    --yellow: #F59E0B;
+    --yellow-soft: #FEF3C7;
+    --green: #10B981;
+    --green-soft: #ECFDF5;
+    --red: #EF4444;
+    --red-soft: #FEF2F2;
+    --purple: #8B5CF6;
+    --purple-soft: #F5F3FF;
+    --teal: #0D9488;
+    --teal-soft: #F0FDFA;
+    --card-bg: #FFFFFF;
+    --bg: #F8FAFC;
+    --border: #E2E8F0;
+    --ink: #0F172A;
+    --ink-muted: #475569;
+    --code-bg: #F1F5F9;
+    --code-ink: #0F172A;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: #FFFFFF;
+    line-height: 1.55;
+    font-size: 13.5px;
+  }
+
+  .cover-page {
+    page-break-after: always;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #2563EB 100%);
+    color: #FFFFFF;
+  }
+
+  .cover-badge {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    color: #93C5FD;
+  }
+
+  .cover-title {
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    letter-spacing: -0.5px;
+    max-width: 780px;
+  }
+
+  .cover-subtitle {
+    font-size: 18px;
+    color: #CBD5E1;
+    max-width: 650px;
+    margin: 0 0 32px;
+    line-height: 1.4;
+    font-weight: 400;
+  }
+
+  .cover-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 720px;
+    width: 100%;
+    margin-bottom: 40px;
+    text-align: left;
+  }
+
+  .cover-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .cover-card-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: #F8FAFC;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .cover-card-desc {
+    font-size: 11.5px;
+    color: #94A3B8;
+    line-height: 1.4;
+  }
+
+  .cover-meta {
+    font-size: 12px;
+    color: #94A3B8;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 20px;
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .main-content {
+    padding: 24px 30px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .module-section {
+    page-break-before: always;
+    margin-top: 20px;
+    padding-top: 10px;
+  }
+
+  .module-header {
+    border-bottom: 2.5px solid var(--primary);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .module-num {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+
+  .module-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0;
+  }
+
+  .module-chapters {
+    font-size: 11px;
+    background: var(--code-bg);
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: var(--ink-muted);
+    font-weight: 600;
+  }
+
+  h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary-light);
+    margin: 18px 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  h3 {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 12px 0 4px;
+  }
+
+  p {
+    margin: 0 0 10px;
+    color: #334155;
+    line-height: 1.55;
+  }
+
+  .eli5-box {
+    background: var(--yellow-soft);
+    border-left: 4px solid var(--yellow);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 10px 0 14px;
+    font-size: 12.5px;
+  }
+
+  .eli5-box strong {
+    color: #92400E;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 3px;
+    font-size: 13px;
+  }
+
+  .rule-box {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 10px 0 14px;
+    font-size: 12.5px;
+  }
+
+  .rule-box strong {
+    color: #1E40AF;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 3px;
+    font-size: 13px;
+  }
+
+  .trap-box {
+    background: var(--red-soft);
+    border-left: 4px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 10px 0 14px;
+    font-size: 12.5px;
+  }
+
+  .trap-box strong {
+    color: #991B1B;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 3px;
+    font-size: 13px;
+  }
+
+  .qa-box {
+    background: var(--teal-soft);
+    border-left: 4px solid var(--teal);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 10px 0 14px;
+    font-size: 12.5px;
+  }
+
+  .qa-box strong {
+    color: #115E59;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 3px;
+    font-size: 13px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    page-break-inside: avoid;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 14px;
+    font-size: 12px;
+    page-break-inside: avoid;
+  }
+
+  th {
+    background: #0F172A;
+    color: #FFFFFF;
+    text-align: left;
+    padding: 6px 10px;
+    font-weight: 600;
+    font-size: 11.5px;
+  }
+
+  td {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    vertical-align: top;
+    color: #1E293B;
+  }
+
+  tr:nth-child(even) td {
+    background: #F8FAFC;
+  }
+
+  code {
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+    font-size: 11.5px;
+    background: var(--code-bg);
+    color: #0F172A;
+    padding: 1px 4px;
+    border-radius: 4px;
+  }
+
+  pre {
+    background: #0F172A;
+    color: #E2E8F0;
+    padding: 10px 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+    font-size: 11px;
+    line-height: 1.45;
+    margin: 8px 0 12px;
+    page-break-inside: avoid;
+  }
+
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+  }
+
+  .syntax-kw { color: #F43F5E; font-weight: 600; }
+  .syntax-str { color: #34D399; }
+  .syntax-num { color: #FBBF24; }
+  .syntax-fn { color: #60A5FA; }
+  .syntax-com { color: #64748B; font-style: italic; }
+  .syntax-cls { color: #A78BFA; font-weight: 600; }
+
+  .toc-container {
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    page-break-inside: avoid;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+    font-size: 12px;
+  }
+
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dashed #CBD5E1;
+    padding-bottom: 2px;
+  }
+
+  .toc-item-title {
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  .toc-item-sub {
+    color: var(--ink-muted);
+    font-size: 11px;
+  }
+
+  .step-diagram {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+    background: #F8FAFC;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 11.5px;
+  }
+
+  .step-pill {
+    background: var(--accent);
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .step-arrow {
+    color: #94A3B8;
+    font-weight: 700;
+  }
+
+  .comparison-tag {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .tag-good { background: #D1FAE5; color: #065F46; }
+  .tag-bad { background: #FEE2E2; color: #991B1B; }
+  .tag-warn { background: #FEF3C7; color: #92400E; }
+
+  @media print {
+    body { background: #FFFFFF; }
+    .cover-page { height: 100vh; }
+    .module-section { page-break-before: always; }
+    .card, pre, table, .eli5-box, .rule-box, .trap-box, .qa-box { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER PAGE ================= -->
+<div class="cover-page">
+  <div class="cover-badge">Complete QA Automation & Full-Stack Reference</div>
+  <h1 class="cover-title">JavaScript, TypeScript & Playwright Automation</h1>
+  <p class="cover-subtitle">The Master "Explain Like I'm 5" (ELI5) Quick Reference Handbook. 28 Comprehensive Chapters distiled into Intuitive Analogies, Visual Mental Models & Real QA Gotchas.</p>
+
+  <div class="cover-grid">
+    <div class="cover-card">
+      <div class="cover-card-title">🧸 Intuitive ELI5 Analogies</div>
+      <div class="cover-card-desc">No dry academic jargon. Variables are sticky notes, closures are backpacks, and objects are toy boxes with shared addresses.</div>
+    </div>
+    <div class="cover-card">
+      <div class="cover-card-title">🧪 Automation-First Focus</div>
+      <div class="cover-card-desc">Tailored specifically for QA Engineers: Page Object Model (POM), Playwright locators, async execution & test architecture.</div>
+    </div>
+    <div class="cover-card">
+      <div class="cover-card-title">⚡ Top Interview Traps</div>
+      <div class="cover-card-desc">Step-by-step unrolling of tricky expressions (<code>++a + a + a++</code>, TDZ, hoisting quirks, loose equality, method overriding).</div>
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    <span><strong>Author / Repo:</strong> JS-TS-PW-AI Master Curriculum</span>
+    <span><strong>Coverage:</strong> Chapters 00 through 28 (100% Complete)</span>
+    <span><strong>Format:</strong> Quick Reference & Cheat Sheet</span>
+  </div>
+</div>
+
+<div class="main-content">
+
+<!-- ================= TABLE OF CONTENTS ================= -->
+<div class="toc-container">
+  <div style="font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+    <span>📖</span> Curriculum Roadmap & Module Navigation
+  </div>
+  <div class="toc-grid">
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 01:</span> <span class="toc-item-sub">JS Engine, Keywords & Data Types</span></div>
+      <div>Ch 01-03</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 02:</span> <span class="toc-item-sub">Operators & Type Coercion</span></div>
+      <div>Ch 04-05</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 03:</span> <span class="toc-item-sub">Control Flow, Loops & User Input</span></div>
+      <div>Ch 06-10</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 04:</span> <span class="toc-item-sub">Arrays & Matrix Algorithms</span></div>
+      <div>Ch 11, 17</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 05:</span> <span class="toc-item-sub">Functions, Scope, Hoisting & Closures</span></div>
+      <div>Ch 12-14</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 06:</span> <span class="toc-item-sub">Strings & Modern Text Processing</span></div>
+      <div>Ch 15</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 07:</span> <span class="toc-item-sub">Objects & The Memory Model</span></div>
+      <div>Ch 16</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 08:</span> <span class="toc-item-sub">ES6 Modules & Architecture</span></div>
+      <div>Ch 21</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 09:</span> <span class="toc-item-sub">OOP: Classes, Encapsulation & Inheritance</span></div>
+      <div>Ch 22-26</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 10:</span> <span class="toc-item-sub">Polymorphism & Mixins</span></div>
+      <div>Ch 26-27</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 11:</span> <span class="toc-item-sub">TypeScript Fundamentals for QA</span></div>
+      <div>Ch 28</div>
+    </div>
+    <div class="toc-item">
+      <div><span class="toc-item-title">Module 12:</span> <span class="toc-item-sub">Playwright & Prompt Engineering</span></div>
+      <div>Ch 00, 24</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODULE 01 ================= -->
+<section class="module-section">
+  <div class="module-header">
+    <div>
+      <div class="module-num">Module 01</div>
+      <h1 class="module-title">The JS Engine, Keywords & Data Types</h1>
+    </div>
+    <div class="module-chapters">Chapters 01, 02, 03</div>
+  </div>
+
+  <div class="eli5-box">
+    <strong>🧸 ELI5: The Busy Restaurant Kitchen</strong>
+    Think of the <strong>JavaScript Engine (V8)</strong> as a busy restaurant kitchen.
+    <ul>
+      <li><strong>Memory Heap (The Pantry):</strong> Where raw ingredients, objects, and variables are stored on shelves.</li>
+      <li><strong>Call Stack (The Chef's Cutting Board):</strong> Can only prepare one dish at a time (Single-threaded). Orders are stacked on top of each other: Last In, First Out (LIFO).</li>
+      <li><strong>JIT (Just-In-Time) Compiler (The Smart Manager):</strong> Watches what code runs thousands of times ("Hot Code") and instantly translates it into blazing-fast machine code.</li>
+    </ul>
+  </div>
+
+  <h2>1. Variable Declarations: The Three Characters</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Declaration</th>
+        <th>Scope</th>
+        <th>Hoisting Behavior</th>
+        <th>Re-assignable?</th>
+        <th>ELI5 Personality</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>var</code></td>
+        <td>Function / Global</td>
+        <td>Hoisted as <code>undefined</code></td>
+        <td>Yes</td>
+        <td><span class="comparison-tag tag-bad">The Traitor</span> Leaks outside blocks, causes bugs.</td>
+      </tr>
+      <tr>
+        <td><code>let</code></td>
+        <td>Block <code>{ }</code></td>
+        <td>Hoisted into TDZ (Error if accessed early)</td>
+        <td>Yes</td>
+        <td><span class="comparison-tag tag-good">The Sincere Worker</span> Stays strictly inside its block.</td>
+      </tr>
+      <tr>
+        <td><code>const</code></td>
+        <td>Block <code>{ }</code></td>
+        <td>Hoisted into TDZ</td>
+        <td>No</td>
+        <td><span class="comparison-tag tag-good">The Solid Rock</span> Can never be reassigned.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. Identifier Naming Rules (What can name a variable?)</h2>
+  <div class="grid-2">
+    <div class="card">
+      <div style="font-weight: 700; color: var(--green); margin-bottom: 6px;">✅ Allowed Identifiers</div>
+      <ul>
+        <li>Can start with letters: <code>let name = "QA"</code></li>
+        <li>Can start with dollar sign: <code>let $price = 99</code></li>
+        <li>Can start with underscore: <code>let _temp = 10</code></li>
+        <li>Can contain digits after 1st char: <code>let user1 = "A"</code></li>
+        <li>Case sensitive: <code>age</code> and <code>Age</code> are different!</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div style="font-weight: 700; color: var(--red); margin-bottom: 6px;">❌ Forbidden Identifiers</div>
+      <ul>
+        <li>Cannot start with a digit: <code>let 1user</code> 💥 <i>SyntaxError</i></li>
+        <li>Cannot contain spaces: <code>let first name</code> 💥</li>
+        <li>Cannot use hyphens: <code>let user-name</code> 💥 (interpreted as minus)</li>
+        <li>Cannot use reserved keywords: <code>let class</code>, <code>let return</code> 💥</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>3. The Grand Null vs Undefined Battle</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="color: var(--accent); margin-top: 0;"><code>undefined</code></h3>
+      <p><strong>ELI5:</strong> An empty shelf. Nobody has put anything in it yet.</p>
+      <pre><code>let a;
+console.log(a);         <span class="syntax-com">// undefined</span>
+console.log(typeof a);  <span class="syntax-com">// "undefined"</span></code></pre>
+    </div>
+    <div class="card">
+      <h3 style="color: var(--teal); margin-top: 0;"><code>null</code></h3>
+      <p><strong>ELI5:</strong> An intentional gift box wrapped with nothing inside. The developer explicitly decided it is empty.</p>
+      <pre><code>let b = null;
+console.log(b);         <span class="syntax-com">// null</span>
+console.log(typeof b);  <span class="syntax-com">// "object" (Famous 30-year JS bug!)</span></code></pre>
+    </div>
+  </div>
+
+  <div class="trap-box">
+    <strong>⚠️ Top Interview Question: typeof null</strong>
+    Why does <code>typeof null</code> return <code>"object"</code>?
+    In early JavaScript, values were stored with a type-tag. The object tag was <code>000</code>. Because <code>null</code> was represented as a NULL pointer (all zeros), the engine read its tag as object! It was never fixed to avoid breaking billions of web pages.
+  </div>
+</section>
+
+<!-- ================= MODULE 02 ================= -->
+<section class="module-section">
+  <div class="module-header">
+    <div>
+      <div class="module-num">Module 02</div>
+      <h1 class="module-title">Operators & The Type Coercion Magic Show</h1>
+    </div>
+    <div class="module-chapters">Chapters 04, 05</div>
+  </div>
+
+  <div class="eli5-box">
+    <strong>🧸 ELI5: Loose Equality (==) vs Strict Equality (===)</strong>
+    Imagine a bouncer at a club:
+    <ul>
+      <li><strong>Strict Bouncer (===):</strong> "Your ID says '18' as a string? No entry! I only allow real Numbers. Exact type and exact value required!"</li>
+      <li><strong>Loose Bouncer (==):</strong> "You are wearing a clown disguise? That's fine, let me convert you into a Number so you look like the other guy." (Performs crazy type coercion!)</li>
+    </ul>
+  </div>
+
+  <h2>1. Loose Equality (==) Mind-Benders</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Expression</th>
+        <th>Result</th>
+        <th>Behind The Scenes Explanation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>"" == 0</code></td>
+        <td><code>true</code></td>
+        <td>Empty string converts to <code>Number("")</code> which is <code>0</code>. <code>0 == 0</code> is true.</td>
+      </tr>
+      <tr>
+        <td><code>"0" == 0</code></td>
+        <td><code>true</code></td>
+        <td>String <code>"0"</code> converts to <code>0</code>. <code>0 == 0</code> is true.</td>
+      </tr>
+      <tr>
+        <td><code>"" == "0"</code></td>
+        <td><code>false</code></td>
+        <td>Both are strings! No conversion needed. Different contents, so false! (Transitivity broken!)</td>
+      </tr>
+      <tr>
+        <td><code>null == undefined</code></td>
+        <td><code>true</code></td>
+        <td>Special ECMA rule: loosely equal only to each other and nothing else.</td>
+      </tr>
+      <tr>
+        <td><code>null === undefined</code></td>
+        <td><code>false</code></td>
+        <td>Different types! (Object vs Undefined).</td>
+      </tr>
+      <tr>
+        <td><code>NaN === NaN</code></td>
+        <td><code>false</code></td>
+        <td><code>NaN</code> is not equal even to itself! Always use <code>Number.isNaN(x)</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. Increment & Decrement Operators: Pre vs Post</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="color: var(--accent); margin-top: 0;">Pre-Increment: <code>++a</code></h3>
+      <p><strong>Rule:</strong> "Update FIRST, then use the new value immediately in the expression."</p>
+      <pre><code>let a = 10;
+let b = ++a; 
+<span class="syntax-com">// a becomes 11, b receives 11!</span></code></pre>
+    </div>
+    <div class="card">
+      <h3 style="color: var(--teal); margin-top: 0;">Post-Increment: <code>a++</code></h3>
+      <p><strong>Rule:</strong> "Use the CURRENT value in the expression first, THEN update <code>a</code> behind your back."</p>
+      <pre><code>let a = 10;
+let b = a++; 
+<span class="syntax-com">// b receives 10, then a becomes 11!</span></code></pre>
+    </div>
+  </div>
+
+  <div class="trap-box">
+    <strong>⚠️ Step-by-Step Interview Puzzle: <code>++a + a + a++</code></strong>
+    <pre><code>let a = 10;
+console.log(++a + a + a++);
+console.log(a);</code></pre>
+    <div class="step-diagram">
+      <span class="step-pill">Term 1: ++a</span>
+      <span>a becomes 11, returns <strong>11</strong></span>
+      <span class="step-arrow">&rarr;</span>
+      <span class="step-pill">Term 2: a</span>
+      <span>current value of a is <strong>11</strong></span>
+      <span class="step-arrow">&rarr;</span>
+      <span class="step-pill">Term 3: a++</span>
+      <span>uses <strong>11</strong>, then a becomes 12</span>
+    </div>
+    <p><strong>Total Sum:</strong> <code>11 + 11 + 11 = 33</code>! And final value of <code>a</code> is <strong>12</strong>.</p>
+  </div>
+
+  <h2>3. Nullish Coalescing (??) vs Logical OR (||)</h2>
+  <div class="qa-box">
+    <strong>🧪 Real QA Example: API Defaults & Configuration</strong>
+    <ul>
+      <li><code>||</code> falls back on ANY falsy value (<code>0</code>, <code>""</code>, <code>false</code>, <code>null</code>, <code>undefined</code>).</li>
+      <li><code>??</code> ONLY falls back when the value is strictly <code>null</code> or <code>undefined</code>!</li>
+    </ul>
+    <pre><code>let retryCount = 0;
+let actualRetries = retryCount || 3;  <span class="syntax-com">// 3 (BUG: 0 is a valid retry count, but || ignored it!)</span>
+let safeRetries = retryCount ?? 3;    <span class="syntax-com">// 0 (CORRECT: 0 is preserved!)</span>
+
+let brand = null;
+let milk = brand ?? "Nandini Milk";   <span class="syntax-com">// "Nandini Milk"</span></code></pre>
+  </div>
+</section>
+
+<!-- ================= MODULE 03 ================= -->
+<section class="module-section">
+  <div class="module-header">
+    <div>
+      <div class="module-num">Module 03</div>
+      <h1 class="module-title">Control Flow, Loops & Input Handling</h1>
+    </div>
+    <div class="module-chapters">Chapters 06, 07, 08, 09, 10</div>
+  </div>
+
+  <div class="eli5-box">
+    <strong>🧸 ELI5: The Three Loop Styles</strong>
+    <ul>
+      <li><strong>For Loop:</strong> The disciplined gym instructor. "Do exactly 10 pushups: 1, 2, 3... 10. Stop." (Used when you know the count beforehand).</li>
+      <li><strong>While Loop:</strong> The security guard at a club gate. "As long as the visitor has a valid badge, let them in. If they don't, they never enter even once." (Condition checked before entry).</li>
+      <li><strong>Do...While Loop:</strong> The amusement park ride that gives you 1 free test ride first, and then checks your ticket before deciding whether you can ride again! (Guaranteed to execute at least once).</li>
+    </ul>
+  </div>
+
+  <h2>1. Truthy vs Falsy (The Only 7 Falsy Values in JavaScript)</h2>
+  <p>Anything that is not in this table is <strong>Truthy</strong> (including empty arrays <code>[]</code> and empty objects <code>{}</code>!).</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Falsy Value</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>false</code></td><td>Boolean</td><td>Literal boolean false</td></tr>
+      <tr><td><code>0</code>, <code>-0</code>, <code>0n</code></td><td>Number / BigInt</td><td>Zero values</td></tr>
+      <tr><td><code>""</code> (empty string)</td><td>String</td><td>String with zero characters</td></tr>
+      <tr><td><code>null</code></td><td>Object</td><td>Intentional absence of value</td></tr>
+      <tr><td><code>undefined</code></td><td>Undefined</td><td>Uninitialized value</td></tr>
+      <tr><td><code>NaN</code></td><td>Number</td><td>Not-a-Number (invalid calculation)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2. Loop Controls: break vs continue</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="color: var(--red); margin-top: 0;"><code>break</code>: Emergency Exit</h3>
+      <p>Completely terminates the entire loop immediately. Control jumps to the code following the loop.</p>
+      <pre><code>for (let i = 1; i <= 5; i++) {
+  if (i === 3) break;
+  console.log(i); <span class="syntax-com">// prints: 1, 2</span>
+}</code></pre>
+    </div>
+    <div class="card">
+      <h3 style="color: var(--yellow); margin-top: 0;"><code>continue</code>: Skip Turn</h3>
+      <p>Skips the rest of the CURRENT iteration and jumps directly to the next iteration.</p>
+      <pre><code>for (let i = 1; i <= 5; i++) {
+  if (i === 3) continue;
+  console.log(i); <span class="syntax-com">// prints: 1, 2, 4, 5</span>
+}</code></pre>
+    </div>
+  </div>
+
+  <h2>3. Star Pyramid Pattern (Matrix Arithmetic)</h2>
+  <pre><code><span class="syntax-com">// Desired output for n = 3:
+//   *      (i=1, spaces=2, stars=1)
+//  ***     (i=2, spaces=1, stars=3)
+// *****    (i=3, spaces=0, stars=5)</span>
+
+let n = 3;
+for (let i = 1; i <= n; i++) {
+  let row = "";
+  for (let j = 1; j <= n - i; j++) row += " ";       <span class="syntax-com">// Spaces: n - i</span>
+  for (let k = 1; k <= 2 * i - 1; k++) row += "*";   <span class="syntax-com">// Stars: 2*i - 1</span>
+  console.log(row);
+}</code></pre>
+
+  <h2>4. Reading User Input in Node.js</h2>
+  <div class="card">
+    <p>In browser we have <code>prompt()</code>. In Node.js backend/scripts, we use:</p>
+    <ul>
+      <li><strong>prompt-sync:</strong> Synchronous console reading: <code>const prompt = require('prompt-sync')(); let name = prompt("Name? ");</code></li>
+      <li><strong>readline module:</strong> Built-in async stream listener for CLI prompts.</li>
+      <li><strong>fs.readFileSync:</strong> Reading data from external JSON or test data files directly.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= MODULE 04 ================= -->
+<section class="module-section">
+  <div class="module-header">
+    <div>
+      <div class="module-num">Module 04</div>
+      <h1 class="module-title">Arrays & Matrix Algorithms</h1>
+    </div>
+    <div class="module-chapters">Chapters 11, 17</div>
+  </div>
+
+  <div class="eli5-box">
+    <strong>🧸 ELI5: The Indexed Toy Shelf</strong>
+    An array is a neat shelf with numbered compartments starting at <strong>0</strong>.
+    Modern JavaScript gives you a special superpower: <code>arr.at(-1)</code> retrieves the very last toy without typing <code>arr[arr.length - 1]</code>!
+  </div>
+
+  <h2>1. The Array Method Battle: Mutating vs Non-Mutating</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th>Mutates Original?</th>
+        <th>What it does</th>
+        <th>ELI5 Picture</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>push(x)</code> / <code>pop()</code></td>
+        <td><span class="comparison-tag tag-warn">Yes</span></td>
+        <td>Adds / removes item at the <strong>end</strong></td>
+        <td>Pushing a tray onto the top of the stack.</td>
+      </tr>
+      <tr>
+        <td><code>unshift(x)</code> / <code>shift()</code></td>
+        <td><span class="comparison-tag tag-warn">Yes</span></td>
+        <td>Adds / removes item at the <strong>front</strong></td>
+        <td>Cutting in line at the very front.</td>
+      </tr>
+      <tr>
+        <td><code>splice(start, count)</code></td>
+        <td><span class="comparison-tag tag-bad">Yes (Surgery)</span></td>
+        <td>Cuts out pieces and optionally injects new ones</td>
+        <td>Using a scalpel to remove/replace a section of a cake.</td>
+      </tr>
+      <tr>
+        <td><code>slice(start, end)</code></td>
+        <td><span class="comparison-tag tag-good">No (Photo)</span></td>
+        <td>Returns a fresh shallow copy of a sub-section</td>
+        <td>Taking a photograph of part of the shelf.</td>
+      </tr>
+      <tr>
+        <td><code>map(fn)</code></td>
+        <td><span class="comparison-tag tag-good">No</span></td>
+        <td>Transforms every element into a new array</td>
+        <td>Passing every raw toy through a paint sprayer.</td>
+      </tr>
+      <tr>
+        <td><code>filter(fn)</code></td>
+        <td><span class="comparison-tag tag-good">No</span></td>
+        <td>Keeps only elements that pass the boolean test</td>
+        <td>A sieve that lets only passed QA tests through.</td>
+      </tr>
+      <tr>
+        <td><code>reduce(fn, init)</code></td>
+        <td><span class="comparison-tag tag-good">No</span></td>
+        <td>Boils down all elements into a single accumulator</td>
+        <td>Melting down individual scrap metals into one gold coin.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. Functional Array Methods in Automation</h2>
+  <pre><code>const testResults = [
+  { name: "Login", status: "pass", timeMs: 400 },
+  { name: "Checkout", status: "fail", timeMs: 1200 },
+  { name: "Search", status: "pass", timeMs: 300 }
+];
+
+<span class="syntax-com">// 1. Filter: Get only failed tests</span>
+const failedTests = testResults.filter(t => t.status === "fail");
+
+<span class="syntax-com">// 2. Map: Extract test names</span>
+const names = testResults.map(t => t.name); <span class="syntax-com">// ["Login", "Checkout", "Search"]</span>
+
+<span class="syntax-com">// 3. Reduce: Calculate total execution duration</span>
+const totalDuration = testResults.reduce((sum, t) => sum + t.timeMs, 0); <span class="syntax-com">// 1900 ms</span></code></pre>
+
+  <h2>3. Multi-Dimensional (2D) Arrays: Matrix Grid</h2>
+  <pre><code>let matrix = [
+  ["Chrome", "Pass"],
+  ["Firefox", "Pass"],
+  ["WebKit", "Fail"]
+];
+console.log(matrix[2][0]); <span class="syntax-com">// "WebKit" (Row index 2, Column index 0)</span>
+console.log(matrix[2][1]); <span class="syntax-com">// "Fail"</span></code></pre>
+</section>
+
+<!-- ================= MODULE 05 ================= -->
+<section class="module-section">
+  <div class="module-header">
+    <div>
+      <div class="module-num">Module 05</div>
+      <h1 class="module-title">Functions, Scope, Hoisting & Closures</h1>
+    </div>
+    <div class="module-chapters">Chapters 12, 13, 14</div>
+  </div>
+
+  <div class="eli5-box">
+    <strong>🧸 ELI5: The Closure Backpack</strong>
+    When a function is born, it packs a small <strong>backpack</strong> containing all the variables from the room (scope) it was born in.
+    Even if you take that function miles away (returning it outside), and even if the room is demolished, the function <strong>still has its backpack</strong> and can read and modify those variables forever!
+  </div>
+
+  <h2>1. The Four Function Types</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="color: var(--accent); margin-top: 0;">1. Function Declaration</h3>
+      <p>Hoisted completely with body! Can be called before it is written.</p>
+      <pre><code>function add(a, b) { return a + b; }</code></pre>
+      <h3 style="color: var(--teal);">2. Function Expression</h3>
+      <p>Stored in variable. Hoisted only according to <code>var/let/const</code> rules.</p>
+      <pre><code>const add = function(a, b) { return a + b; };</code></pre>
+    </div>
+    <div class="card">
+      <h3 style="color: var(--purple); margin-top: 0;">3. Arrow Function</h3>
+      <p>Concise, does not bind its own <code>this</code> (inherits from outer scope).</p>
+      <pre><code>const add = (a, b) => a + b;</code></pre>
+      <h3 style="color: var(--yellow);">4. IIFE (Immediately Invoked)</h3>
+      <p>Executes the exact microsecond it is defined. Creates private scope.</p>
+      <pre><code>(function() { console.log("Init QA"); })();</code></pre>
+    </div>
+  </div>
+
+  <h2>2. Hoisting & The Temporal Dead Zone (TDZ)</h2>
+  <div class="trap-box">
+    <strong>⚠️ What really happens during JS Compilation phase?</strong>
+    JavaScript scans the code <em>before</em> running it:
+    <ul>
+      <li><strong>Function Declarations:</strong> Placed in memory completely. Safe to call anywhere.</li>
+      <li><code>var</code>: Allocated in memory and initialized to <code>undefined</code>. If accessed before declaration, it prints <code>undefined</code> instead of throwing an error!</li>
+      <li><code>let</code> and <code>const</code>: Allocated in memory, but <strong>NOT initialized</strong>. They enter the <strong>Temporal Dead Zone (TDZ)</strong>. If you touch them before their line, JavaScript throws a loud <code>ReferenceError</code>!</li>
+    </ul>
+  </div>
+
+  <pre><code>console.log(a); <span class="syntax-com">// undefined (var is hoisted and initialized)</span>
+var a = 10;
+
+console.log(b); <span class="syntax-com">// ReferenceError: Cannot access 'b' before initialization (TDZ!)</span>
+let b = 20;</code></pre>
+
+  <h2>3. The Real Automation Closure Example</h2>
+  <pre><code>function createBrowserSession(browserName) {
+  let launchCount = 0; <span class="syntax-com">// Stays inside the backpack!</span>
+
+  return function launch() {
+    launchCount++;
+    console.log(`Launching ${browserName}. Total runs: ${launchCount}`);
+  };
+}
+
+const runChrome = createBrowserSession("Chrome");
+runChrome(); <span class="syntax-com">// Launching Chrome. Total runs: 1</span>
+runChrome(); <span class="syntax-com">// Launching Chrome. Total runs: 2</span>
+runChrome(); <span class="syntax-com">// Launching Chrome. Total runs: 3 (State remembered!)</span></code></pre>
+</section>
+
+<!-- ================= MODULE 06 & 07 ================= -->
+<section class="module-section">
+  <div class="module-header">
+    <div>
+      <div class="module-num">Module 06 & 07</div>
+      <h1 class="module-title">Strings, Objects & Memory Architecture</h1>
+    </div>
+    <div class="module-chapters">Chapters 15, 16</div>
+  </div>
+
+  <div class="eli5-box">
+    <strong>🧸 ELI5: The Toy Box Story (Pass-By-Reference)</strong>
+    Imagine one physical toy box with a note inside that says <strong>"pass"</strong>.
+    You stick label <code>a</code> on the box.
+    Then you write <code>let b = a;</code>. This does <strong>NOT</strong> create a new toy box!
+    It just sticks a second label, <code>b</code>, on the <strong>same toy box</strong>!
+    When <code>b.status = "fail"</code> runs, someone walked up to that one box and changed the note.
+    Now if you open the box using label <code>a</code>... you see <strong>"fail"</strong>!
+  </div>
+
+  <h2>1. Object Memory Model: Stack vs Heap</h2>
+  <div class="card" style="text-align: center; background: #FAF7F0;">
+    <svg viewBox="0 0 600 130" style="max-width: 100%; height: auto;">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#0F172A"/>
+        </marker>
+      </defs>
+      <!-- Stack Section -->
+      <rect x="20" y="15" width="220" height="100" rx="8" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+      <text x="130" y="35" text-anchor="middle" font-size="12" font-weight="700" fill="#1E40AF">STACK (Pointers & Primitives)</text>
+      <rect x="35" y="45" width="60" height="26" rx="4" fill="#F7DF1E" stroke="#0F172A"/>
+      <text x="65" y="62" text-anchor="middle" font-size="12" font-weight="700" fill="#0F172A">a: 0x88F</text>
+      <rect x="35" y="78" width="60" height="26" rx="4" fill="#F7DF1E" stroke="#0F172A"/>
+      <text x="65" y="95" text-anchor="middle" font-size="12" font-weight="700" fill="#0F172A">b: 0x88F</text>
+      
+      <!-- Arrows -->
+      <line x1="100" y1="58" x2="330" y2="65" stroke="#0F172A" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="100" y1="91" x2="330" y2="70" stroke="#0F172A" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Heap Section -->
+      <rect x="340" y="15" width="240" height="100" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="1.5"/>
+      <text x="460" y="35" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">HEAP (Object Storage at 0x88F)</text>
+      <rect x="360" y="50" width="200" height="45" rx="6" fill="#FFFFFF" stroke="#059669"/>
+      <text x="460" y="77" text-anchor="middle" font-size="14" font-weight="700" fill="#DC2626">{ status: "fail" }</text>
+    </svg>
+    <p style="font-size: 11px; color: var(--ink-muted); margin-top: 4px;">Both variable <code>a</code> and variable <code>b</code> hold memory address <code>0x88F</code>. There is only ONE object in Heap memory.</p>
+  </div>
+
+  <h2>2. Shallow Copy vs Deep Copy: The Safe Way</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Copy Technique</th>
+        <th>Syntax</th>
+        <th>Depth</th>
+        <th>Safe for Nested Objects?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Reference Assignment</td>
+        <td><code>let b = a;</code></td>
+        <td>None (Points to same memory)</td>
+        <td><span class="comparison-tag tag-bad">No</span> Changes affect both!</td>
+      </tr>
+      <tr>
+        <td>Shallow Copy</td>
+        <td><code>let b = { ...a };</code> or <code>Object.assign({}, a)</code></td>
+        <td>1 Level Deep</td>
+        <td><span class="comparison-tag tag-warn">Partial</span> Inner nested objects are still shared!</td>
+      </tr>
+      <tr>
+        <td>Deep Copy (Modern)</td>
+        <td><code>let b = structuredClone(a);</code></td>
+        <td>Infinite Depth</td>
+        <td><span class="comparison-tag tag-good">Yes</span> Complete independent duplicate.</td>
+      </tr>
+      <tr>
+        <td>Deep Copy (Classic)</td>
+        <td><code>JSON.parse(JSON.stringify(a))</code></td>
+        <td>All JSON values</td>
+        <td><span class="comparison-tag tag-good">Yes</span> (Drops functions & undefined).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3. String Methods: <code>charAt(i)</code> vs <code>at(i)</code></h2>
+  <pre><code>const str = "Playwright";
+
+console.log(str.charAt(0));  <span class="syntax-com">// "P"</span>
+console.log(str.at(0));      <span class="syntax-com">// "P"</span>
+
+console.log(str.charAt(-1)); <span class="syntax-com">// "" (Empty string! Old method does not support negative)</span>
+console.log(str.at(-1));     <span class="syntax-com">// "t" (SUPERPOWER: counts from end!)</span>
+
+console.log(str.slice(0, 4));<span class="syntax-com">// "Play"</span>
+console.log(str.includes("wright")); <span class="syntax-com">// true</span></code></pre>
+</section>
+
+<!-- ================= MODULE 08 & 09 ================= -->
+<section class="module-section">
+  <div class="module-header">
+    <div>
+      <div class="module-num">Module 08 & 09</div>
+      <h1 class="module-title">ES Modules & OOP: Classes, Encapsulation</h1>
+    </div>
+    <div class="module-chapters">Chapters 21, 22, 23, 25</div>
+  </div>
+
+  <div class="eli5-box">
+    <strong>🧸 ELI5: Classes, Constructors & Private Fields</strong>
+    <ul>
+      <li><strong>Class:</strong> The metal cookie cutter (The Blueprint).</li>
+      <li><strong>Object / Instance:</strong> The actual delicious cookie stamped out using <code>new CookieCutter()</code>.</li>
+      <li><strong>Constructor:</strong> The baking recipe executed automatically the second the cookie is stamped.</li>
+      <li><strong>Private Field (<code>#</code>):</strong> The secret chocolate cream inside the cookie. Outsiders cannot reach in and touch it; they can only taste it through official methods!</li>
+    </ul>
+  </div>
+
+  <h2>1. CommonJS vs ES6 Modules (import / export)</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="color: var(--accent); margin-top: 0;">CommonJS (Node.js Classic)</h3>
+      <pre><code><span class="syntax-com">// Exporting: utils.js</span>
+module.exports = { add, log };
+
+<span class="syntax-com">// Importing: test.js</span>
+const { add, log } = require('./utils');</code></pre>
+    </div>
+    <div class="card">
+      <h3 style="color: var(--purple); margin-top: 0;">ES6 Modules (Modern Standard)</h3>
+      <pre><code><span class="syntax-com">// Exporting: utils.js</span>
+export const add = (a, b) => a + b;
+export default class Logger { }
+
+<span class="syntax-com">// Importing: test.js</span>
+import Logger, { add } from './utils.js';</code></pre>
+    </div>
+  </div>
+
+  <h2>2. Encapsulation: Protecting Sensitive QA State</h2>
+  <p>In JavaScript, placing a <code>#</code> before a property makes it truly private at the engine level.</p>
+  <pre><code>class BankAccount {
+  #balance; <span class="syntax-com">// Truly private field! Cannot be accessed outside.</span>
+
+  constructor(owner, initialBalance) {
+    this.owner = owner;
+    this.#balance = initialBalance;
+  }
+
+  deposit(amount) {
+    if (amount <= 0) throw new Error("Deposit must be positive!");
+    this.#balance += amount;
+  }
+
+  getBalance() {
+    return this.#balance; <span class="syntax-com">// Controlled getter</span>
+  }
+}
+
+const acc = new BankAccount("Pramod", 5000);
+acc.deposit(1000);
+console.log(acc.getBalance()); <span class="syntax-com">// 6000</span>
+<span class="syntax-com">// console.log(acc.#balance); // SyntaxError: Private field '#balance' must be declared!</span></code></pre>
+
+  <h2>3. Static vs Instance Members</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Attached To</th>
+        <th>Invoked Via</th>
+        <th>Automation Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Instance Method</strong></td>
+        <td>Each created object</td>
+        <td><code>const page = new LoginPage(); page.login();</code></td>
+        <td>Performing actions on a specific browser tab.</td>
+      </tr>
+      <tr>
+        <td><strong>Static Method</strong></td>
+        <td>The Class constructor itself</td>
+        <td><code>BasePage.getDefaultTimeout();</code></td>
+        <td>Global test counters, utility helpers, shared configurations.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================= MODULE 10 ================= -->
+<section class="module-section">
+  <div class="module-header">
+    <div>
+      <div class="module-num">Module 10</div>
+      <h1 class="module-title">Inheritance, Mixins & Polymorphism</h1>
+    </div>
+    <div class="module-chapters">Chapters 26, 27</div>
+  </div>
+
+  <div class="eli5-box">
+    <strong>🧸 ELI5: The Page Object Model Family Tree</strong>
+    <ul>
+      <li><strong>Parent (BasePage):</strong> Knows how to open a URL, take a screenshot, and wait for elements.</li>
+      <li><strong>Child (LoginPage extends BasePage):</strong> Inherits everything the parent knows, plus adds specific tools like <code>loginWithCredentials()</code>!</li>
+      <li><strong>Polymorphism (Method Overriding):</strong> Both <code>APITest</code> and <code>WebTest</code> have a method named <code>setup()</code>, but each executes its own custom version!</li>
+    </ul>
+  </div>
+
+  <h2>1. Single & Multi-Level Inheritance in Automation</h2>
+  <pre><code>class BasePage {
+  constructor(pageName) {
+    this.pageName = pageName;
+  }
+  open() {
+    console.log(`[NAVIGATE] Opening ${this.pageName}`);
+  }
+}
+
+class LoginPage extends BasePage {
+  constructor() {
+    super("Login Page"); <span class="syntax-com">// super() MUST be called first in child constructor!</span>
+  }
+  login(user, pass) {
+    this.open();
+    console.log(`[AUTH] Logging in user: ${user}`);
+  }
+}
+
+const loginPage = new LoginPage();
+loginPage.login("admin@qa.com", "Secret@123");</code></pre>
+
+  <h2>2. Why Multiple Inheritance is Illegal & How Mixins Solve It</h2>
+  <div class="trap-box">
+    <strong>⚠️ The Diamond Problem in JS</strong>
+    In JavaScript, you <strong>CANNOT</strong> write <code>class Test extends Framework, Logger</code> 💥!
+    To combine multiple capabilities into one class, we use <strong>Mixins</strong> (functions that wrap a base class with new features).
+  </div>
+
+  <pre><code><span class="syntax-com">// Mixin 1: Adds Logging</span>
+const LoggerMixin = (Base) => class extends Base {
+  log(msg) { console.log(`[LOG] ${msg}`); }
+};
+
+<span class="syntax-com">// Mixin 2: Adds Screenshot ability</span>
+const ScreenshotMixin = (Base) => class extends Base {
+  takeScreenshot() { console.log("[SCREENSHOT] Captured failure.png"); }
+};
+
+<span class="syntax-com">// Compose multiple capabilities:</span>
+class CoreTest { run() { console.log("Executing test"); } }
+class SuperTest extends ScreenshotMixin(LoggerMixin(CoreTest)) {}
+
+const myTest = new SuperTest();
+myTest.run();             <span class="syntax-com">// From CoreTest</span>
+myTest.log("Step 1 ok");   <span class="syntax-com">// From LoggerMixin</span>
+myTest.takeScreenshot();  <span class="syntax-com">// From ScreenshotMixin</span></code></pre>
+
+  <h2>3. Runtime Polymorphism (Method Overriding)</h2>
+  <pre><code>class BaseTest {
+  setup() { console.log("Base: Open generic browser"); }
+}
+
+class APITest extends BaseTest {
+  setup() { console.log("APITest: Initialize REST client & Auth tokens"); } <span class="syntax-com">// Overridden!</span>
+}
+
+const tests = [new BaseTest(), new APITest()];
+tests.forEach(t => t.setup());
+<span class="syntax-com">// Output:
+// "Base: Open generic browser"
+// "APITest: Initialize REST client & Auth tokens"</span></code></pre>
+</section>
+
+<!-- ================= MODULE 11 ================= -->
+<section class="module-section">
+  <div class="module-header">
+    <div>
+      <div class="module-num">Module 11</div>
+      <h1 class="module-title">TypeScript Fundamentals for QA Engineers</h1>
+    </div>
+    <div class="module-chapters">Chapter 28</div>
+  </div>
+
+  <div class="eli5-box">
+    <strong>🧸 ELI5: Why TypeScript?</strong>
+    JavaScript is driving without a seatbelt: you can drive fast, but any typo crashes your car at runtime in production!
+    <strong>TypeScript is the strict driving instructor</strong> who sits beside you, checks every line before you even start the engine, and prevents bugs before code ever runs.
+  </div>
+
+  <h2>1. Core Primitive & Special Types</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Example</th>
+        <th>Meaning & Automation Usage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>string</code></td>
+        <td><code>let locator: string = "#submit-btn";</code></td>
+        <td>Text values, CSS selectors, URLs.</td>
+      </tr>
+      <tr>
+        <td><code>number</code></td>
+        <td><code>let timeout: number = 5000;</code></td>
+        <td>Timeouts, counts, prices, durations.</td>
+      </tr>
+      <tr>
+        <td><code>boolean</code></td>
+        <td><code>let isHeadless: boolean = true;</code></td>
+        <td>Flags, assertions, pass/fail status.</td>
+      </tr>
+      <tr>
+        <td><code>any</code></td>
+        <td><code>let data: any = JSON.parse(str);</code></td>
+        <td><span class="comparison-tag tag-bad">Danger</span> Turns off type checking. Avoid in tests!</td>
+      </tr>
+      <tr>
+        <td><code>unknown</code></td>
+        <td><code>let raw: unknown;</code></td>
+        <td><span class="comparison-tag tag-good">Type-Safe Any</span> Must be type-checked before use.</td>
+      </tr>
+      <tr>
+        <td><code>void</code></td>
+        <td><code>function log(): void { }</code></td>
+        <td>Function finishes and returns nothing.</td>
+      </tr>
+      <tr>
+        <td><code>never</code></td>
+        <td><code>function fail(): never { throw new Error(); }</code></td>
+        <td>Function NEVER returns (throws error or infinite loop).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. Type Annotations, Unions & Interfaces</h2>
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="color: var(--accent); margin-top: 0;">Function Annotations</h3>
+      <pre><code><span class="syntax-com">// Explicit params and return type:</span>
+function calculatePassRate(
+  passed: number, 
+  total: number
+): string {
+  const rate = (passed / total) * 100;
+  return `${rate.toFixed(1)}%`;
+}</code></pre>
+    </div>
+    <div class="card">
+      <h3 style="color: var(--purple); margin-top: 0;">Union Types</h3>
+      <pre><code><span class="syntax-com">// Parameter can only be one of these exact values:</span>
+type BrowserType = "chromium" | "firefox" | "webkit";
+
+function startTest(browser: BrowserType) {
+  console.log(`Launching ${browser}`);
+}
+<span class="syntax-com">// startTest("safari"); // Error: Argument not assignable!</span></code></pre>
+    </div>
+  </div>
+
+  <h2>3. Defining Test Fixtures with Interfaces</h2>
+  <pre><code>interface TestCaseConfig {
+  name: string;
+  retries?: number; <span class="syntax-com">// Optional property (indicated by ?)</span>
+  timeoutMs: number;
+  tags: string[];
+}
+
+const smokeTest: TestCaseConfig = {
+  name: "Verify Login Flow",
+  timeoutMs: 30000,
+  tags: ["smoke", "auth"]
+};</code></pre>
+</section>
+
+<!-- ================= MODULE 12 ================= -->
+<section class="module-section">
+  <div class="module-header">
+    <div>
+      <div class="module-num">Module 12</div>
+      <h1 class="module-title">Playwright & Prompt Engineering Architecture</h1>
+    </div>
+    <div class="module-chapters">Chapters 00, 24</div>
+  </div>
+
+  <div class="eli5-box">
+    <strong>🧸 ELI5: The RICE-POT Prompt Engineering Framework</strong>
+    When asking AI to generate enterprise automation code, standard prompts fail. Use <strong>RICE-POT</strong>:
+    <ul>
+      <li><strong>R - Role:</strong> "Act as a Senior Staff QA Automation Architect."</li>
+      <li><strong>I - Instructions:</strong> "Write an end-to-end Playwright test in TypeScript using POM."</li>
+      <li><strong>C - Context:</strong> "Testing Salesforce login form with CSRF protection."</li>
+      <li><strong>E - Example:</strong> Provide sample inputs and expected locators.</li>
+      <li><strong>P - Persona:</strong> Enterprise production-grade code with error handling.</li>
+      <li><strong>O - Output:</strong> Clean TypeScript file with zero markdown commentary.</li>
+      <li><strong>T - Tone / Constraints:</strong> "Anti-hallucination rule: Only use valid Playwright locators."</li>
+    </ul>
+  </div>
+
+  <h2>1. Playwright Architecture & The Async Execution Model</h2>
+  <p>In modern web applications, everything happens asynchronously over the Chrome DevTools Protocol (CDP). You <strong>MUST</strong> use <code>await</code> before all browser actions.</p>
+  <pre><code>import { test, expect } from '@playwright/test';
+
+test('Verify standard user login', async ({ page }) => {
+  <span class="syntax-com">// 1. Navigate</span>
+  await page.goto('https://example.com/login');
+
+  <span class="syntax-com">// 2. Locate & Interact (Auto-waits for element to be actionable!)</span>
+  await page.locator('#username').fill('standard_user');
+  await page.locator('#password').fill('secret_sauce');
+  await page.locator('#login-button').click();
+
+  <span class="syntax-com">// 3. Web-First Assertions (Retries automatically until timeout!)</span>
+  await expect(page).toHaveURL(/.*inventory/);
+  await expect(page.locator('.title')).toHaveText('Products');
+});</code></pre>
+
+  <h2>2. Recommended Locator Strategy Hierarchy</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Priority</th>
+        <th>Locator Method</th>
+        <th>Why it is Best Practice</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="comparison-tag tag-good">1st Choice</span></td>
+        <td><code>page.getByRole('button', { name: 'Submit' })</code></td>
+        <td>Mirrors how real users and screen readers see the web page. Resilient to HTML changes.</td>
+      </tr>
+      <tr>
+        <td><span class="comparison-tag tag-good">2nd Choice</span></td>
+        <td><code>page.getByLabel('Password')</code> / <code>getByPlaceholder()</code></td>
+        <td>User-visible labels and text cues.</td>
+      </tr>
+      <tr>
+        <td><span class="comparison-tag tag-good">3rd Choice</span></td>
+        <td><code>page.getByTestId('login-btn')</code></td>
+        <td>Explicit test contract created by developers (<code>data-testid</code>).</td>
+      </tr>
+      <tr>
+        <td><span class="comparison-tag tag-bad">Avoid</span></td>
+        <td>XPath: <code>xpath=//div[3]/form/button[2]</code></td>
+        <td>Extremely fragile! Breaks whenever any CSS or layout changes.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3. Master Page Object Model (POM) Template</h2>
+  <pre><code><span class="syntax-com">// LoginPage.ts</span>
+import { Page, Locator } from '@playwright/test';
+
+export class LoginPage {
+  readonly page: Page;
+  readonly usernameInput: Locator;
+  readonly passwordInput: Locator;
+  readonly submitButton: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+    this.usernameInput = page.getByPlaceholder('Username');
+    this.passwordInput = page.getByPlaceholder('Password');
+    this.submitButton = page.getByRole('button', { name: 'Login' });
+  }
+
+  async goto() {
+    await this.page.goto('/login');
+  }
+
+  async login(user: string, pass: string) {
+    await this.usernameInput.fill(user);
+    await this.passwordInput.fill(pass);
+    await this.submitButton.click();
+  }
+}</code></pre>
+
+  <h2>4. The Ultimate 15-Point Quick Reference Cheat Sheet</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Expression / Code</th>
+        <th>Result</th>
+        <th>Why? (ELI5 Summary)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>typeof null</code></td><td><code>"object"</code></td><td>Historic JS engine implementation artifact.</td></tr>
+      <tr><td><code>typeof NaN</code></td><td><code>"number"</code></td><td>NaN means "invalid number", but its data type is still number!</td></tr>
+      <tr><td><code>[] + []</code></td><td><code>""</code> (empty string)</td><td>Both arrays convert to empty strings and concatenate.</td></tr>
+      <tr><td><code>[] + {}</code></td><td><code>"[object Object]"</code></td><td>Empty string concatenated with object string conversion.</td></tr>
+      <tr><td><code>0.1 + 0.2 === 0.3</code></td><td><code>false</code></td><td>IEEE 754 floating point precision gives <code>0.30000000000000004</code>.</td></tr>
+      <tr><td><code>typeof (function(){})</code></td><td><code>"function"</code></td><td>Functions have special first-class callable object status.</td></tr>
+      <tr><td><code>"5" - 3</code></td><td><code>2</code></td><td>The <code>-</code> operator only works on numbers, forcing string "5" to 5.</td></tr>
+      <tr><td><code>"5" + 3</code></td><td><code>"53"</code></td><td>The <code>+</code> operator prefers string concatenation if either side is string.</td></tr>
+      <tr><td><code>[1, 2, 3].at(-1)</code></td><td><code>3</code></td><td>Modern negative indexing to get last element cleanly.</td></tr>
+      <tr><td><code>structuredClone(obj)</code></td><td>Full Deep Copy</td><td>Browser and Node built-in for deep copying objects safely.</td></tr>
+      <tr><td><code>super()</code> in subclass</td><td>Must call first!</td><td>Initializes <code>this</code> binding from parent class constructor.</td></tr>
+      <tr><td><code>#privateField</code></td><td>Engine-level privacy</td><td>Throws syntax error if touched outside the defining class.</td></tr>
+      <tr><td><code>??</code> operator</td><td>Nullish fallback</td><td>Only triggers for <code>null</code> or <code>undefined</code>, preserves <code>0</code> and <code>""</code>.</td></tr>
+      <tr><td><code>page.locator()</code></td><td>Lazy locator</td><td>Does not query DOM until an action (e.g. click) is awaited!</td></tr>
+      <tr><td><code>await expect(...)</code></td><td>Auto-retrying assertion</td><td>Polls the page continuously until assertion passes or times out.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</div>
+</body>
+</html>

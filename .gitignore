@@ -1,6 +1,8 @@
-﻿target/
+target/
 *.class
 .idea/
 *.iml
 .vscode/
 *.log
+node_modules/
+
